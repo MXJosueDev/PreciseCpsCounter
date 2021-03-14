@@ -20,6 +20,8 @@ use function array_filter;
 
 class Main extends PluginBase implements Listener{
 
+    public static $instance;
+    
     private const ARRAY_MAX_SIZE = 100;
 
     /** @var bool */
@@ -32,7 +34,12 @@ class Main extends PluginBase implements Listener{
         $this->saveDefaultConfig();
         $this->countLeftClickBlock = $this->getConfig()->get('count-left-click-on-block');
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
+        self::$instance = $this;
     }
+    
+    public static function getInstance() : self{
+        return self::$instance;
+    } 
 
     public function initPlayerClickData(Player $p) : void{
         $this->clicksData[$p->getLowerCaseName()] = [];
